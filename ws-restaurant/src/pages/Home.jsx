@@ -1,12 +1,13 @@
 
 import React from "react";
-import Navigation from "../layouts/nav";
+
 import Hero from "../components/hero";
+import Navbar from "../layouts/nav";
 
 export default function Home() {
   return (
     <>
-    <Navigation/>
+    <Navbar/>
     <Hero/>
    <div className="text-center">
       <h1 className="text-4xl font-bold text-blue-500">Hello, Tailwind CSS!</h1>

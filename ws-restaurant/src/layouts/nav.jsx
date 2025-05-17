@@ -1,74 +1,97 @@
 import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
 import '../styles/nav.css'
+import { MdMenu } from "react-icons/md"; 
 
-
-
-function Navigation() {
-
-  const [position, setPosition] = useState({
-    left: 0,
-    width: 0,
-    opacity: 0,
-  });
-
+import { FaRegUser } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { UpdateFollower } from "react-mouse-follower";
+import Logo from "../assets/logo.png";
+const NavbarMenu = [
+  {
+    id: 1,
+    title: "Home",
+    link: "#",
+  },
+  {
+    id: 2,
+    title: "Categories",
+    link: "#",
+  },
+  {
+    id: 3,
+    title: "Blog",
+    link: "#",
+  },
+  {
+    id: 4,
+    title: "About",
+    link: "#",
+  },
+  {
+    id: 5,
+    title: "Contact",
+    link: "#",
+  },
+];
+const Navbar = () => {
   return (
-   <ul
-      onMouseLeave={() => {
-        setPosition((pv) => ({
-          ...pv,
-          opacity: 0,
-        }));
-      }}
-      className="relative mx-auto flex w-fit rounded-full border-2 border-black bg-white p-1"
-    >
-  <Tab setPosition={setPosition} className="text-red-900">Home</Tab>
-<Tab setPosition={setPosition}>Menu</Tab>
-<Tab setPosition={setPosition}>Reservations</Tab>
-<Tab setPosition={setPosition}>Events</Tab>
-<Tab setPosition={setPosition}>Gallery</Tab>
-<Tab setPosition={setPosition}>About Us</Tab>
-<Tab setPosition={setPosition}>Contact</Tab>
+    <div className=" text-white py-8">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+        className="container flex justify-between items-center"
+      >
+        {/* logo section  */}
+       <div>
+          <img src={Logo} alt="" className="max-w-[100px] invert" />
+        </div>
+        {/* Menu section */}
+        <div className="hidden md:block">
+          <ul className="flex items-center gap-4 relative z-40">
+            {NavbarMenu.map((item) => (
+              <li>
+                <UpdateFollower
+                  mouseOptions={{
+                    backgroundColor: "white",
+                    zIndex: 9999,
+                    followSpeed: 1.5,
+                    scale: 5,
+                    mixBlendMode: "difference",
+                  }}
+                >
+                  <a
+                    href={item.link}
+                    className="inline-block text-base font-semibold py-2 px-3 uppercase"
+                  >
+                    {item.title}
+                  </a>
+                </UpdateFollower>
+              </li>
+            ))}
 
-
-      <Cursor position={position} />
-    </ul>
+            <UpdateFollower
+              mouseOptions={{
+                backgroundColor: "white",
+                zIndex: 9999,
+                followSpeed: 1.5,
+                scale: 5,
+                mixBlendMode: "difference",
+              }}
+            >
+              <button className="text-xl ps-14">
+                <FaRegUser />
+              </button>
+            </UpdateFollower>
+          </ul>
+        </div>
+        {/* Hamburger Icon */}
+        <div className="md:hidden">
+          <MdMenu className="text-4xl" />
+        </div>
+      </motion.div>
+    </div>
   );
 };
 
-const Tab = ({ children, setPosition }) => {
-  const ref = useRef(null);
-
-  return (
-    <li
-      ref={ref}
-      onMouseEnter={() => {
-        if (!ref?.current) return;
-
-        const { width } = ref.current.getBoundingClientRect();
-
-        setPosition({
-          left: ref.current.offsetLeft,
-          width,
-          opacity: 1,
-        });
-      }}
-      className="relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-white mix-blend-difference md:px-5 md:py-3 md:text-base"
-    >
-      {children}
-    </li>
-  );
-}
-
-export default Navigation;
-
-const Cursor = ({ position }) => {
-  return (
-    <motion.li
-      animate={{
-        ...position,
-      }}
-      className="absolute z-0 h-7 rounded-full bg-black md:h-12"
-    />
-  );
-};
+export default Navbar;
